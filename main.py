@@ -3,7 +3,6 @@ import random
 
 n = 239255299284384349304725149856552492038598445886956658797340414572081315025316855599003056773010145489861807217942474066769254994889937350554812114599199747011822931003470188469755565575428252755498450043694308433269873821720504733262583005940196298951811543171416951549542705533417999736765774452030314635913103516225119401185982005668156650192848448135779911780427770251154346413709247810959979685820122190878080140819951259653464493002404315741219936122712441337048287859676453307655235582246940129654549936418104588280142515645148689690033053995534499764950491215574658031050257809925263610106291
 e = 51831672085074814178680269722598016921936838558306727005991561731670505910386509866184899294113023750765710594543251856658239666016521056714215727353889825219309912019100396570607753922542886645209401533085461587994461683838141339926725638136349726690307472237142348752101995510115124409635193574780938087738364459858781987481597603026016849697794677
-phi = 0
 
 
 def gcd(a, b):
@@ -47,6 +46,7 @@ def keyGen(p, q):
 
 	print("My n:\n" + ascii(myN) + '\n' + "my e:\n" + ascii(myE) + '\n')
 	print(ascii(myD))
+	return myD
 
 
 def convertStringtoInt(string):
@@ -59,6 +59,20 @@ def convertStringtoInt(string):
 			stringList.append(str(ord(c)))
 	result = int(''.join(stringList))
 	return result
+
+
+def convertInttoString(integer):
+	tempstr = str(integer)
+	while (len(tempstr)%3!=0):
+		tempstr = "0" + tempstr
+
+	# TODO Finish conversion
+	templist = [tempstr[i:i+3] for i in range(0, len(tempstr), 3)]
+	result = [templist[i] for i in range(0, len(templist))]
+	result = [chr(int(result[i])) for i in range(len(result))]
+	fresult = ''.join(result)
+	return fresult
+
 
 
 if __name__ == '__main__':
@@ -79,6 +93,12 @@ if __name__ == '__main__':
 	#while (not isPrime(q)):
 	#	q = random.randrange(10**600, 10**700)
 
-	print(ascii(p))
-	print(ascii(q))
-	keyGen(p, q)
+	myD = keyGen(p, q)
+	myN = p*q
+
+	print("RSA Decrypter")
+	encryptedMessage = input("Please enter the message you wish to decrypt\n")
+	encryptedMessage = convertStringtoInt(encryptedMessage)
+	decryptedMessage = pow(encryptedMessage, myD, myN)
+	decryptedMessage = convertInttoString(decryptedMessage)
+	print(decryptedMessage)
