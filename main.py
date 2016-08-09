@@ -6,20 +6,27 @@ e = 5183167208507481417868026972259801692193683855830672700599156173167050591038
 phi = 0
 
 
-def egcd(a, b):
-    if a == 0:
-        return (b, 0, 1)
-    else:
-        g, y, x = egcd(b % a, a)
-        return (g, x - (b // a) * y, y)
+def gcd(a, b):
+    # Return the GCD of a and b using Euclid's Algorithm
+    while a != 0:
+        a, b = b % a, a
+    return b
 
 
-def modinv(a, m):
-    g, x, y = egcd(a, m)
-    if g != 1:
-        raise Exception('modular inverse does not exist')
-    else:
-        return x % m
+def findModInverse(a, m):
+    # Returns the modular inverse of a % m, which is
+    # the number x such that a*x % m = 1
+
+    if gcd(a, m) != 1:
+        return None # no mod inverse if a & m aren't relatively prime
+
+    # Calculate using the Extended Euclidean Algorithm:
+    u1, u2, u3 = 1, 0, a
+    v1, v2, v3 = 0, 1, m
+    while v3 != 0:
+        q = u3 // v3 # // is the integer division operator
+        v1, v2, v3, u1, u2, u3 = (u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
+    return u1 % m
 
 
 def isCoprime(a, b):
@@ -28,52 +35,50 @@ def isCoprime(a, b):
 	else:
 		return False
 
-def isPrime(n):
-	if n == 2 or n == 3:
-		return True
-	if n < 2 or n%2 == 0:
-		return False
-	if n < 9:
-		return True
-	if n%3 == 0:
-		return False
-	r = int(n**0.5)
-	f = 5
-	while f <= r:
-		print ('\t',f)
-		if n%f == 0: return False
-		if n%(f+2) == 0: return False
-		f +=6
-	return True
 
-def keyGen(p,q):
+def keyGen(p, q):
 	myN = p*q
 	phi = (p-1)*(q-1)
 
 	myE = 0
 	while (not isCoprime(phi, myE)):
 		myE = random.randrange(70001,phi)
-	myD = modinv(myE, phi)
+	myD = findModInverse(myE, phi)
 
-	print("My n: " + ascii(myN)+ "my e: " + ascii(myE) + '\n')
-	print(myD)
+	print("My n:\n" + ascii(myN) + '\n' + "my e:\n" + ascii(myE) + '\n')
+	print(ascii(myD))
+
+
+def convertStringtoInt(string):
+	stringList = []
+	for c in string:
+		# Adds leading zeroes if they're missing.
+		if (ord(c)<100):
+			stringList.append("0"+str(ord(c)))
+		else:
+			stringList.append(str(ord(c)))
+	result = int(''.join(stringList))
+	return result
 
 
 if __name__ == '__main__':
 	print("RSA Encrypter")
-	message = int(input("Please enter your message\n"))
+	message = input("Please enter your message\n")
+	message = convertStringtoInt(message)
+	# print(message)
 
 	ciphertext = pow(message, e, n)
 	print(ciphertext)
 
 	print("RSA KeyGen algorithm....")
-	p = 0;
-	q = 0;
-	while (not isPrime(p)):
-		p = random.randrange(10**600, 10**700)
-	while (not isPrime(q)):
-		q = random.randrange(10**600, 10**700)
+	p = 203956878356401977405765866929034577280193993314348263094772646453283062722701277632936616063144088173312372882677123879538709400158306567338328279154499698366071906766440037074217117805690872792848149112022286332144876183376326512083574821647933992961249917319836219304274280243803104015000563790123
+	q = 250556952327646214427246777488032351712139094643988394726193347352092526616305469220133287929222242315761834129196430398011844978805263868522770723615504744438638381670321613949280530254014602887707960375752016807510602846590492724216092721283154099469988532068424757856392563537802339735359978831013
+
+	#while (not isPrime(p)):
+	#	p = random.randrange(10**600, 10**700)
+	#while (not isPrime(q)):
+	#	q = random.randrange(10**600, 10**700)
 
 	print(ascii(p))
 	print(ascii(q))
-	keyGen(p,q)
+	keyGen(p, q)
