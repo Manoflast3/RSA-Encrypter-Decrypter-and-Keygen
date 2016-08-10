@@ -60,12 +60,11 @@ def convertStringtoInt(string):
 
 def convertInttoString(integer):
 	tempstr = str(integer)
-	#while (len(tempstr)%3!=0):
-	#	tempstr = "0" + tempstr
+	while (len(tempstr)%3!=0):
+		tempstr = "0" + tempstr
 
 	# TODO Finish conversion
 	templist = [tempstr[i:i+3] for i in range(0, len(tempstr), 3)]
-	print(templist)
 	result = [chr(int(templist[i])) for i in range(0, len(templist))]
 	fresult = ''.join(result)
 	return fresult
@@ -74,11 +73,10 @@ def convertInttoString(integer):
 
 if __name__ == '__main__':
 
-	# Encrypting with Martin's Key. 
+	# Encrypting with Martin's Key.
 	print("RSA Encrypter")
 	message = input("Please enter your message\n")
 	message = convertStringtoInt(message)
-	#Message conversion is correct
 
 	ciphertext = pow(message, e, n)
 	print(ciphertext)
@@ -88,19 +86,23 @@ if __name__ == '__main__':
 	p = 203956878356401977405765866929034577280193993314348263094772646453283062722701277632936616063144088173312372882677123879538709400158306567338328279154499698366071906766440037074217117805690872792848149112022286332144876183376326512083574821647933992961249917319836219304274280243803104015000563790123
 	q = 250556952327646214427246777488032351712139094643988394726193347352092526616305469220133287929222242315761834129196430398011844978805263868522770723615504744438638381670321613949280530254014602887707960375752016807510602846590492724216092721283154099469988532068424757856392563537802339735359978831013
 
-	myE = keyGen(p, q)
+	# myE = keyGen(p, q)
+	# Procrastination is my kEy.
+	myE = 52448290317967581362329941911561415442375330483872783199491999732516473802486166622808287195404099181924408497101909347066314344327851857986370996835993709795373205468659987407587951233842787959481719983145980874997255265195716742895996337283884855121292050033357047144523323525328367747616536344392941212597130714897533537588468234580318039509961455739634619247372448682099779265610843464222336330199705763222381072336947524570719821315281810525098365445277772810841772466315052101703878607531411436498552914260651451877025976993954888448969187921773589771791195461399960927134760312871903601522145
+
 	myN = p*q
 	myD = findModInverse(myE, (p-1)*(q-1))
 	print("My n:\n" + ascii(myN) + '\n' + "my e:\n" + ascii(myE) + '\n')
 	print("My d: " + '\n' + ascii(myD))
 
 	print("RSA Decrypter")
-	encryptedMessage = input("Please enter the message you wish to decrypt\n")
-	encryptedMessage = convertStringtoInt(encryptedMessage)
+
+	OriginalMessage = input("Please enter the message you wish to encrypt\n")
+	encryptedMessage = convertStringtoInt(OriginalMessage)
+	encryptedMessage = pow(encryptedMessage, myE, myN)
 	decryptedMessage = pow(encryptedMessage, myD, myN)
 	decryptedMessage = convertInttoString(decryptedMessage)
-	# TODO something wrong
-	# print(decryptedMessage)
+	print(decryptedMessage)
 
 
 	# This part is Tests the code. Seems to work correctly w/ 12
