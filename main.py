@@ -28,7 +28,7 @@ def findModInverse(a, m):
     return u1 % m
 
 
-def isCoprime(a, b):
+def Coprime(a, b):
 	if math.gcd(a,b) == 1:
 		return True
 	else:
@@ -38,15 +38,12 @@ def isCoprime(a, b):
 def keyGen(p, q):
 	myN = p*q
 	phi = (p-1)*(q-1)
+	print("My phi: " + '\n' + ascii(phi))
 
 	myE = 0
-	while (not isCoprime(phi, myE)):
-		myE = random.randrange(70001,phi)
-	myD = findModInverse(myE, phi)
-
-	print("My n:\n" + ascii(myN) + '\n' + "my e:\n" + ascii(myE) + '\n')
-	print(ascii(myD))
-	return myD
+	while (not Coprime(phi, myE)):
+		myE = random.randrange(70001, phi)
+	return myE
 
 
 def convertStringtoInt(string):
@@ -63,42 +60,55 @@ def convertStringtoInt(string):
 
 def convertInttoString(integer):
 	tempstr = str(integer)
-	while (len(tempstr)%3!=0):
-		tempstr = "0" + tempstr
+	#while (len(tempstr)%3!=0):
+	#	tempstr = "0" + tempstr
 
 	# TODO Finish conversion
 	templist = [tempstr[i:i+3] for i in range(0, len(tempstr), 3)]
-	result = [templist[i] for i in range(0, len(templist))]
-	result = [chr(int(result[i])) for i in range(len(result))]
+	print(templist)
+	result = [chr(int(templist[i])) for i in range(0, len(templist))]
 	fresult = ''.join(result)
 	return fresult
 
 
 
 if __name__ == '__main__':
+
+	# Encrypting with Martin's Key. 
 	print("RSA Encrypter")
 	message = input("Please enter your message\n")
 	message = convertStringtoInt(message)
-	# print(message)
+	#Message conversion is correct
 
 	ciphertext = pow(message, e, n)
 	print(ciphertext)
 
+	# KeyGen
 	print("RSA KeyGen algorithm....")
 	p = 203956878356401977405765866929034577280193993314348263094772646453283062722701277632936616063144088173312372882677123879538709400158306567338328279154499698366071906766440037074217117805690872792848149112022286332144876183376326512083574821647933992961249917319836219304274280243803104015000563790123
 	q = 250556952327646214427246777488032351712139094643988394726193347352092526616305469220133287929222242315761834129196430398011844978805263868522770723615504744438638381670321613949280530254014602887707960375752016807510602846590492724216092721283154099469988532068424757856392563537802339735359978831013
 
-	#while (not isPrime(p)):
-	#	p = random.randrange(10**600, 10**700)
-	#while (not isPrime(q)):
-	#	q = random.randrange(10**600, 10**700)
-
-	myD = keyGen(p, q)
+	myE = keyGen(p, q)
 	myN = p*q
+	myD = findModInverse(myE, (p-1)*(q-1))
+	print("My n:\n" + ascii(myN) + '\n' + "my e:\n" + ascii(myE) + '\n')
+	print("My d: " + '\n' + ascii(myD))
 
 	print("RSA Decrypter")
 	encryptedMessage = input("Please enter the message you wish to decrypt\n")
 	encryptedMessage = convertStringtoInt(encryptedMessage)
 	decryptedMessage = pow(encryptedMessage, myD, myN)
 	decryptedMessage = convertInttoString(decryptedMessage)
-	print(decryptedMessage)
+	# TODO something wrong
+	# print(decryptedMessage)
+
+
+	# This part is Tests the code. Seems to work correctly w/ 12
+	"""
+	OGmessageTest = 12
+	encryptedMessageTest = pow(OGmessageTest, myE, myN)
+	print("my encryptedMessageTest: " + '\n' + str(encryptedMessageTest))
+	decryptedMessageTest = pow(encryptedMessageTest, myD, myN)
+	# TODO Something wrong
+	print("my decryptedMessageTest: " + '\n' + ascii(decryptedMessageTest))
+	"""
