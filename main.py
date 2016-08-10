@@ -4,13 +4,11 @@ import random
 n = 239255299284384349304725149856552492038598445886956658797340414572081315025316855599003056773010145489861807217942474066769254994889937350554812114599199747011822931003470188469755565575428252755498450043694308433269873821720504733262583005940196298951811543171416951549542705533417999736765774452030314635913103516225119401185982005668156650192848448135779911780427770251154346413709247810959979685820122190878080140819951259653464493002404315741219936122712441337048287859676453307655235582246940129654549936418104588280142515645148689690033053995534499764950491215574658031050257809925263610106291
 e = 51831672085074814178680269722598016921936838558306727005991561731670505910386509866184899294113023750765710594543251856658239666016521056714215727353889825219309912019100396570607753922542886645209401533085461587994461683838141339926725638136349726690307472237142348752101995510115124409635193574780938087738364459858781987481597603026016849697794677
 
-
 def gcd(a, b):
     # Return the GCD of a and b using Euclid's Algorithm
     while a != 0:
         a, b = b % a, a
     return b
-
 
 def findModInverse(a, m):
     # Returns the modular inverse of a % m, which is
@@ -113,4 +111,36 @@ if __name__ == '__main__':
 	decryptedMessageTest = pow(encryptedMessageTest, myD, myN)
 	# TODO Something wrong
 	print("my decryptedMessageTest: " + '\n' + ascii(decryptedMessageTest))
+	"""
+
+	"""
+	The Code found for the modinv and gcd functions are part of the Python Cryptography module, distributed under the BSD license
+	Copyright (c) <year>, <copyright holder>
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. All advertising materials mentioning features or use of this software
+   must display the following acknowledgement:
+   This product includes software developed by the <organization>.
+4. Neither the name of the <organization> nor the
+   names of its contributors may be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY <COPYRIGHT HOLDER> ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	"""
